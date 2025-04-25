@@ -27,7 +27,7 @@
           >
             <div class="flex items-center justify-between">
               <div class="flex-1">
-                <h3 class="text-lg font-semibold text-gray-800">{{ task.title }}</h3>
+                <h3 class="text-lg font-semibold text-gray-800">{{ task.title }}</h3> <small v-if="task.due_date" class="text-gray-500">Completed at: {{ task.due_date }}</small>
                 <p class="text-gray-600 mt-1">{{ task.description }}</p>
               </div>
               <div class="flex items-center space-x-4">

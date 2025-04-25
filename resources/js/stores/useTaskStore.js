@@ -7,6 +7,7 @@ export const useTaskStore = defineStore("task", {
         completed: null,
         title: null,
         currentPage: 1,
+        tasksUpdated: 0,
     }),
 
     getters: {
@@ -17,5 +18,11 @@ export const useTaskStore = defineStore("task", {
             title: state.title,
             page: state.currentPage,
         }),
+    },
+
+    actions: {
+        notifyTaskUpdate() {
+            this.tasksUpdated++;
+        },
     },
 });

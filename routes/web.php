@@ -16,4 +16,8 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Tasks/List');
-});
+})->name('home');
+
+Route::get('/dashboard', function () {
+    return Inertia::render('Tasks/Dashboard');
+})->name('dashboard');

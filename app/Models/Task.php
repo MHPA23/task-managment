@@ -14,11 +14,13 @@ class Task extends Model
     protected $fillable = [
         'title',
         'description',
+        'due_date',
         'completed',
     ];
 
     protected $casts = [
         'completed' => 'boolean',
+        'due_date' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];

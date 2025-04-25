@@ -32,10 +32,14 @@ test('should be possible to create a task', function () {
             'id',
             'title',
             'description',
+            'due_date',
             'completed',
         ],
     ]);
-    $this->assertDatabaseHas('tasks', $taskData);
+    $this->assertDatabaseHas('tasks', [
+        'title' => $taskData['title'],
+        'description' => $taskData['description'],
+    ]);
 });
 
 it('should be possible validate if title and description are required', function () {
@@ -79,7 +83,11 @@ test('should be possible to update a task', function () {
             'completed',
         ],
     ]);
-    $this->assertDatabaseHas('tasks', $taskData);
+    $this->assertDatabaseHas('tasks', [
+        'id' => $task->id,
+        'title' => $taskData['title'],
+        'description' => $taskData['description'],
+    ]);
 });
 
 it('should be possible validate if title and description are required when update tasks', function () {

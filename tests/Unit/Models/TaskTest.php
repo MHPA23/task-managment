@@ -8,6 +8,7 @@ test('task model has correct fillable attributes', function () {
     expect($task->getFillable())->toBe([
         'title',
         'description',
+        'due_date',
         'completed',
     ]);
 });

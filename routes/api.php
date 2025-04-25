@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\TaskController;
+use App\Http\Controllers\Api\TaskStatusController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,4 +14,5 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::get('tasks/status', TaskStatusController::class)->name('tasks.status');
 Route::apiResource('tasks', TaskController::class);

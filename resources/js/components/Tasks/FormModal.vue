@@ -17,7 +17,8 @@ const errors = ref({})
 const form = reactive({
   title: '',
   description: '',
-  completed: false
+  completed: false,
+  due_date: ''
 })
 
 // Reset form when modal opens/closes or editing task changes
@@ -26,10 +27,12 @@ const resetForm = () => {
     form.title = props.editingTask.title
     form.description = props.editingTask.description
     form.completed = props.editingTask.completed
+    form.due_date = props.editingTask.due_date || ''
   } else {
     form.title = ''
     form.description = ''
     form.completed = false
+    form.due_date = ''
   }
   errors.value = {}
 }
@@ -85,6 +88,19 @@ watch(() => props.editingTask, () => resetForm(), { immediate: true })
           ></textarea>
           <p v-if="errors.description" class="mt-1 text-sm text-red-600">
             {{ errors.description[0] }}
+          </p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Due Date</label>
+          <input 
+            v-model="form.due_date"
+            type="datetime-local"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            :class="{ 'border-red-500': errors.due_date }"
+          >
+          <p v-if="errors.due_date" class="mt-1 text-sm text-red-600">
+            {{ errors.due_date[0] }}
           </p>
         </div>
 
