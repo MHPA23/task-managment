@@ -5,7 +5,7 @@
         <div class="flex justify-between items-center mb-6">
           <h1 class="text-3xl font-bold text-gray-800">Task List</h1>
           <button 
-            @click="showCreateModal = true"
+            @click="openCreateModal"
             class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -16,30 +16,7 @@
         </div>
 
         <!-- Filters -->
-        <div class="flex flex-wrap gap-4 mb-6">
-          <select v-model="taskStore.sortBy" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-            <option value="created_at">Sort by Date</option>
-            <option value="title">Sort by Title</option>
-          </select>
-
-          <select v-model="taskStore.sortDir" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-          </select>
-
-          <select v-model="taskStore.completed" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-            <option :value="null">All Tasks</option>
-            <option :value="true">Completed Tasks</option>
-            <option :value="false">Pending Tasks</option>
-          </select>
-
-          <input
-            v-model="taskStore.title"
-            type="text"
-            placeholder="Search by title..."
-            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-        </div>
+        <TaskFilters/>
 
         <!-- Task List -->
         <ul class="space-y-4">
@@ -55,7 +32,7 @@
               </div>
               <div class="flex items-center space-x-4">
                 <button 
-                  @click="editTask(task)"
+                  @click="openEditModal(task)"
                   class="text-blue-500 hover:text-blue-600"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -118,58 +95,14 @@
         <div v-if="!loading && (!tasks.data || tasks.data.length === 0)" class="mt-6 text-center">
           <p class="text-gray-500">No tasks found.</p>
         </div>
-      </div>
-    </div>
 
-    <!-- Create/Edit Modal -->
-    <div v-if="showCreateModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div class="bg-white rounded-lg p-6 w-full max-w-md">
-        <h2 class="text-2xl font-bold mb-4">{{ editingTask ? 'Edit Task' : 'New Task' }}</h2>
-        
-        <form @submit.prevent="saveTask" class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Title</label>
-            <input 
-              v-model="form.title"
-              type="text"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            >
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Description</label>
-            <textarea 
-              v-model="form.description"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              rows="3"
-            ></textarea>
-          </div>
-
-          <div class="flex items-center">
-            <input 
-              v-model="form.completed"
-              type="checkbox"
-              class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-            >
-            <label class="ml-2 block text-sm text-gray-900">Task Completed</label>
-          </div>
-
-          <div class="flex justify-end space-x-3">
-            <button 
-              type="button"
-              @click="showCreateModal = false"
-              class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-            >
-              Cancel
-            </button>
-            <button 
-              type="submit"
-              class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            >
-              {{ editingTask ? 'Save' : 'Create' }}
-            </button>
-          </div>
-        </form>
+        <!-- Modal de Formulário -->
+        <TaskFormModal
+          :show="showModal"
+          :editing-task="editingTask"
+          @close="closeModal"
+          @save="handleSave"
+        />
       </div>
     </div>
   </div>
@@ -180,33 +113,44 @@ import { ref, reactive, watchEffect } from 'vue'
 import { useTaskStore } from '@/stores/useTaskStore'
 import { useToast } from "vue-toastification"
 import axios from 'axios'
+import TaskFilters from '@/Components/Tasks/Filter.vue'
+import TaskFormModal from '@/Components/Tasks/FormModal.vue'
 
 const toast = useToast()
 const taskStore = useTaskStore()
 const tasks = ref({ data: [], meta: null })
 const loading = ref(false)
-const showCreateModal = ref(false)
+const showModal = ref(false)
 const editingTask = ref(null)
 
-const form = reactive({
-  title: '',
-  description: '',
-  completed: false
-})
+const handleSave = async (formData) => {
+  try {
+    if (editingTask.value) {
+      await axios.put(`/api/tasks/${editingTask.value.id}`, formData)
+      toast.success('Task updated successfully!')
+    } else {
+      await axios.post('/api/tasks', formData)
+      toast.success('Task created successfully!')
+    }
+    await fetchTasks()
+  } catch (error) {
+    throw error // Propagar erro para o componente do modal
+  }
+}
 
-const resetForm = () => {
-  form.title = ''
-  form.description = ''
-  form.completed = false
+const closeModal = () => {
+  showModal.value = false
   editingTask.value = null
 }
 
-const editTask = (task) => {
+const openCreateModal = () => {
+  editingTask.value = null
+  showModal.value = true
+}
+
+const openEditModal = (task) => {
   editingTask.value = task
-  form.title = task.title
-  form.description = task.description
-  form.completed = task.completed
-  showCreateModal.value = true
+  showModal.value = true
 }
 
 const deleteTask = async (task) => {
@@ -219,23 +163,6 @@ const deleteTask = async (task) => {
   } catch (error) {
     console.error('Error deleting task:', error)
     toast.error("An error occurred while deleting the task")
-  }
-}
-
-const saveTask = async () => {
-  try {
-    if (editingTask.value) {
-      await axios.put(`/api/tasks/${editingTask.value.id}`, form)
-      toast.success("Task updated successfully!")
-    } else {
-      await axios.post('/api/tasks', form)
-      toast.success("Task created successfully!")
-    }
-    showCreateModal.value = false
-    resetForm()
-    await fetchTasks()
-  } catch (error) {
-    toast.error(error.response?.data?.error || "An error occurred while saving the task")
   }
 }
 
@@ -264,4 +191,5 @@ const fetchTasks = async () => {
 
 watchEffect(fetchTasks)
 </script>
+  
   

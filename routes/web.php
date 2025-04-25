@@ -15,9 +15,5 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('TaskList');
-});
-
-Route::get('/dashboard', function () {
-    return Inertia::render('TasksChart');
+    return Inertia::render('Tasks/List');
 });
