@@ -57,3 +57,74 @@ php artisan key:generate
 ```
 
 5. Configure your database in `.env`
+
+```
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=your_database
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
+
+6. Run migrations
+
+```bash
+php artisan migrate
+```
+
+7. Build assets
+
+```bash
+npm run dev
+```
+
+8. Start the server
+
+```bash
+php artisan serve
+```
+
+## API Endpoints
+
+| Method | Endpoint        | Description       |
+| ------ | --------------- | ----------------- |
+| GET    | /api/tasks      | List all tasks    |
+| POST   | /api/tasks      | Create a new task |
+| PUT    | /api/tasks/{id} | Update a task     |
+| DELETE | /api/tasks/{id} | Delete a task     |
+
+### Query Parameters
+
+-   `sort_by`: Sort field (created_at, title)
+-   `sort_dir`: Sort direction (asc, desc)
+-   `completed`: Filter by completion status (true, false)
+-   `title`: Search by title
+-   `page`: Page number for pagination
+-   `per_page`: Items per page (default: 10)
+
+## Development
+
+For hot-reload during development:
+
+```bash
+npm run dev
+```
+
+## Testing
+
+```bash
+php artisan test
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
