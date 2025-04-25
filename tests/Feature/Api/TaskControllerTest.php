@@ -3,11 +3,13 @@
 use App\Models\Task;
 use App\Models\User;
 
+use function Pest\Laravel\actingAs;
+
 beforeEach(function () {
     // Criar um usuário para os testes
     $user = User::factory()->create();
     // Disponibilizar o usuário para todos os testes
-    test()->user = $user;
+    actingAs($user);
 });
 
 test('should be possible list tasks', function () {

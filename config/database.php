@@ -79,7 +79,7 @@ return [
         ],
 
         'testing' => [
-            'driver' => 'pgsql',
+            'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),
             'host' => env('DB_TEST_HOST', '127.0.0.1'),
             'port' => env('DB_TEST_PORT', '5432'),

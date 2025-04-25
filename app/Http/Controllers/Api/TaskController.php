@@ -23,11 +23,13 @@ class TaskController extends Controller
     public function store(TaskRequest $request, CreateTaskAction $createTaskAction): TaskResource|JsonResponse
     {
         try {
-            $request->merge(['user_id' => auth()->id()]);
-            $task = $createTaskAction->handle($request->validated());
+            $data = $request->validated();
+            $data['user_id'] = auth()->id();
+            $task = $createTaskAction->handle($data);
 
             return new TaskResource($task);
         } catch (\Exception $e) {
+
             return response()->json(['error' => trans('message.error_to_saved_task')], 500);
         }
     }

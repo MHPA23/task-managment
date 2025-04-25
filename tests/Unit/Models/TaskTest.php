@@ -9,6 +9,7 @@ test('task model has correct fillable attributes', function () {
         'title',
         'description',
         'due_date',
+        'user_id',
         'completed',
     ]);
 });
