@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,6 +21,7 @@ class TaskFactory extends Factory
             'title' => fake()->title(),
             'description' => fake()->paragraph(),
             'due_date' => fake()->dateTimeBetween('now', '+1 month'),
+            'user_id' => User::factory(),
             'completed' => fake()->boolean(),
         ];
     }

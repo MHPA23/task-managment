@@ -1,6 +1,14 @@
 <?php
 
 use App\Models\Task;
+use App\Models\User;
+
+beforeEach(function () {
+    // Criar um usuário para os testes
+    $user = User::factory()->create();
+    // Disponibilizar o usuário para todos os testes
+    test()->user = $user;
+});
 
 test('should be possible list tasks', function () {
     Task::factory()->count(10)->create();

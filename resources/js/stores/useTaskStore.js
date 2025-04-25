@@ -5,7 +5,7 @@ export const useTaskStore = defineStore("task", {
         sortBy: "created_at",
         sortDir: "desc",
         completed: null,
-        title: null,
+        title: "",
         currentPage: 1,
         tasksUpdated: 0,
     }),

@@ -1,4 +1,6 @@
 <script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head } from '@inertiajs/vue3';
 import { ref, onMounted, watch } from 'vue'
 import { useTaskStore } from '@/stores/useTaskStore'
 import axios from 'axios'
@@ -13,8 +15,6 @@ import {
   Title
 } from 'chart.js'
 import { Doughnut, Bar } from 'vue-chartjs'
-import AppLayout from '@/Layouts/AppLayout.vue'
-import MainMenu from '@/Components/MainMenu.vue'
 
 // Register ChartJS components
 ChartJS.register(
@@ -95,83 +95,85 @@ watch(() => taskStore.tasksUpdated, fetchStats)
 </script>
 
 <template>
-  <AppLayout title="Dashboard">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Loading State -->
-      <div v-if="loading" class="flex justify-center items-center h-64">
-        <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
-      </div>
-
-      <div v-else>
-        <!-- Stats Overview -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div class="bg-white rounded-lg shadow p-6">
-            <h3 class="text-lg font-medium text-gray-900">Total Tasks</h3>
-            <p class="text-3xl font-bold text-blue-600">{{ stats.totalTasks }}</p>
-          </div>
-
-          <div class="bg-white rounded-lg shadow p-6">
-            <h3 class="text-lg font-medium text-gray-900">Completed</h3>
-            <p class="text-3xl font-bold text-green-600">{{ stats.completedTasks }}</p>
-          </div>
-
-          <div class="bg-white rounded-lg shadow p-6">
-            <h3 class="text-lg font-medium text-gray-900">Pending</h3>
-            <p class="text-3xl font-bold text-yellow-600">{{ stats.pendingTasks }}</p>
-          </div>
-
-          <div class="bg-white rounded-lg shadow p-6">
-            <h3 class="text-lg font-medium text-gray-900">Categories</h3>
-            <p class="text-3xl font-bold text-purple-600">
-              0
-            </p>
-          </div>
+  <Head title="Dashboard" />
+  <AuthenticatedLayout>
+    <br>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Loading State -->
+        <div v-if="loading" class="flex justify-center items-center h-64">
+          <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
         </div>
 
-        <!-- Charts -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div class="bg-white rounded-lg shadow p-6">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Completion Status</h3>
-            <div class="h-64">
-              <Doughnut
-                :data="completionData"
-                :options="chartOptions"
-              />
+        <div v-else>
+          <!-- Stats Overview -->
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+              <h3 class="text-lg font-medium text-gray-900">Total Tasks</h3>
+              <p class="text-3xl font-bold text-blue-600">{{ stats.totalTasks }}</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+              <h3 class="text-lg font-medium text-gray-900">Completed</h3>
+              <p class="text-3xl font-bold text-green-600">{{ stats.completedTasks }}</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+              <h3 class="text-lg font-medium text-gray-900">Pending</h3>
+              <p class="text-3xl font-bold text-yellow-600">{{ stats.pendingTasks }}</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+              <h3 class="text-lg font-medium text-gray-900">Categories</h3>
+              <p class="text-3xl font-bold text-purple-600">
+                0
+              </p>
             </div>
           </div>
 
-          <div class="bg-white rounded-lg shadow p-6">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Category Distribution</h3>
-            <div class="h-64">
-              <Bar
-                :data="categoryData"
-                :options="chartOptions"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Recent Activity -->
-        <div class="bg-white rounded-lg shadow p-6">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">Recent Activity</h3>
-          <div class="space-y-4">
-            <div v-for="activity in stats.recentActivity" :key="activity.id" 
-                 class="flex items-center justify-between border-b pb-4">
-              <div>
-                <p class="font-medium text-gray-900">{{ activity.title }}</p>
-                <p class="text-sm text-gray-500">{{ activity.description }}</p>
+          <!-- Charts -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+              <h3 class="text-lg font-medium text-gray-900 mb-4">Completion Status</h3>
+              <div class="h-64">
+                <Doughnut
+                  :data="completionData"
+                  :options="chartOptions"
+                />
               </div>
-              <span :class="{
-                'bg-green-100 text-green-800': activity.type === 'completed',
-                'bg-blue-100 text-blue-800': activity.type === 'created',
-                'bg-yellow-100 text-yellow-800': activity.type === 'updated'
-              }" class="px-3 py-1 rounded-full text-sm font-medium">
-                {{ activity.type }}
-              </span>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+              <h3 class="text-lg font-medium text-gray-900 mb-4">Category Distribution</h3>
+              <div class="h-64">
+                <Bar
+                  :data="categoryData"
+                  :options="chartOptions"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Recent Activity</h3>
+            <div class="space-y-4">
+              <div v-for="activity in stats.recentActivity" :key="activity.id" 
+                  class="flex items-center justify-between border-b pb-4">
+                <div>
+                  <p class="font-medium text-gray-900">{{ activity.title }}</p>
+                  <p class="text-sm text-gray-500">{{ activity.description }}</p>
+                </div>
+                <span :class="{
+                  'bg-green-100 text-green-800': activity.type === 'completed',
+                  'bg-blue-100 text-blue-800': activity.type === 'created',
+                  'bg-yellow-100 text-yellow-800': activity.type === 'updated'
+                }" class="px-3 py-1 rounded-full text-sm font-medium">
+                  {{ activity.type }}
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </AppLayout>
+  </AuthenticatedLayout>
 </template>

@@ -12,6 +12,7 @@ class CreateTaskAction
             'title' => $data['title'],
             'description' => $data['description'],
             'due_date' => $data['due_date'] ?? null,
+            'user_id' => $data['user_id'],
             'completed' => $data['completed'],
         ]);
     }

@@ -1,5 +1,7 @@
 <template>
-  <AppLayout title="Tasks">
+  <Head title="Tasks" />
+  <AuthenticatedLayout>
+    <br>
     <div class="max-w-4xl mx-auto px-4">
       <div class="bg-white rounded-lg shadow-lg p-6">
         <div class="flex justify-between items-center mb-6">
@@ -105,15 +107,16 @@
         />
       </div>
     </div>
-  </AppLayout>
+  </AuthenticatedLayout>
 </template>
 
 <script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head } from '@inertiajs/vue3';
 import { ref, reactive, watchEffect } from 'vue'
 import { useTaskStore } from '@/stores/useTaskStore'
 import { useToast } from "vue-toastification"
 import axios from 'axios'
-import AppLayout from '@/Layouts/AppLayout.vue'
 import TaskFilters from '@/Components/Tasks/Filter.vue'
 import TaskFormModal from '@/Components/Tasks/FormModal.vue'
 

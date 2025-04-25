@@ -11,6 +11,7 @@ it('should be possible create a task', function () {
     $this->assertDatabaseHas('tasks', [
         'title' => $task['title'],
         'description' => $task['description'],
+        'user_id' => $task['user_id'],
         'completed' => $task['completed'],
     ]);
 });

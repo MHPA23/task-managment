@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class TaskStatusController extends Controller
 {
@@ -14,20 +15,24 @@ class TaskStatusController extends Controller
      */
     public function __invoke(): \Illuminate\Http\JsonResponse
     {
-        return Cache::remember('tasks.status', 60, function () {
-            $tasksCompleted = Task::query()
-                ->where('completed', true)
-                ->count();
+        return Cache::remember('task_stats', 60, function () {
+            $taskStats = Task::query()
+                ->select(
+                    DB::raw('SUM(CASE WHEN completed = true THEN 1 ELSE 0 END) as completed_tasks'),
+                    DB::raw('SUM(CASE WHEN completed = false THEN 1 ELSE 0 END) as pending_tasks'),
+                    DB::raw('SUM(CASE WHEN due_date <= NOW() THEN 1 ELSE 0 END) as overdue_tasks')
+                )
+                ->where('user_id', 1)
+                ->first();
 
-            $tasksPending = Task::query()
-                ->where('completed', false)
-                ->count();
+            $stats = [
+                'completedTasks' => (int) $taskStats->completed_tasks ?? 0,
+                'pendingTasks' => (int) $taskStats->pending_tasks ?? 0,
+                'overdueTasks' => (int) $taskStats->overdue_tasks ?? 0,
+                'totalTasks' => (int) $taskStats->completed_tasks + (int) $taskStats->pending_tasks + (int) $taskStats->overdue_tasks,
+            ];
 
-            return response()->json([
-                'completedTasks' => $tasksCompleted,
-                'pendingTasks' => $tasksPending,
-                'totalTasks' => $tasksCompleted + $tasksPending,
-            ]);
+            return response()->json($stats);
         });
     }
 }
