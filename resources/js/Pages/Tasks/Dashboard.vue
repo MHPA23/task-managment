@@ -13,6 +13,8 @@ import {
   Title
 } from 'chart.js'
 import { Doughnut, Bar } from 'vue-chartjs'
+import AppLayout from '@/Layouts/AppLayout.vue'
+import MainMenu from '@/Components/MainMenu.vue'
 
 // Register ChartJS components
 ChartJS.register(
@@ -93,7 +95,7 @@ watch(() => taskStore.tasksUpdated, fetchStats)
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-100 py-8">
+  <AppLayout title="Dashboard">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Loading State -->
       <div v-if="loading" class="flex justify-center items-center h-64">
@@ -171,5 +173,5 @@ watch(() => taskStore.tasksUpdated, fetchStats)
         </div>
       </div>
     </div>
-  </div>
+  </AppLayout>
 </template>

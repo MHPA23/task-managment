@@ -12,7 +12,7 @@ class TaskStatusController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke()
+    public function __invoke(): \Illuminate\Http\JsonResponse
     {
         return Cache::remember('tasks.status', 60, function () {
             $tasksCompleted = Task::query()

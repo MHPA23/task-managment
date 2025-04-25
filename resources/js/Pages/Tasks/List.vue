@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-100 py-8">
+  <AppLayout title="Tasks">
     <div class="max-w-4xl mx-auto px-4">
       <div class="bg-white rounded-lg shadow-lg p-6">
         <div class="flex justify-between items-center mb-6">
@@ -105,7 +105,7 @@
         />
       </div>
     </div>
-  </div>
+  </AppLayout>
 </template>
 
 <script setup>
@@ -113,6 +113,7 @@ import { ref, reactive, watchEffect } from 'vue'
 import { useTaskStore } from '@/stores/useTaskStore'
 import { useToast } from "vue-toastification"
 import axios from 'axios'
+import AppLayout from '@/Layouts/AppLayout.vue'
 import TaskFilters from '@/Components/Tasks/Filter.vue'
 import TaskFormModal from '@/Components/Tasks/FormModal.vue'
 
