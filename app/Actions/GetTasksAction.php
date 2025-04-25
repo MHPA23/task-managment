@@ -11,7 +11,7 @@ class GetTasksAction
                 $query->where('completed', $completed);
             })
             ->when($filters['title'] ?? null, function ($query, $title) {
-                $query->where('title', 'ilike', '%'.$title.'%');
+                $query->where('title', 'like', '%'.$title.'%');
             })
             ->when($filters['sort_by'] ?? null, function ($query, $sortBy) use ($filters) {
                 $query->orderBy($sortBy, $filters['sort_dir'] ?? 'asc');
