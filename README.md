@@ -21,13 +21,6 @@ A modern task management system built with Laravel and Vue.js, featuring a respo
 -   **Database**: PostgreSQL
 -   **Notifications**: Vue Toastification
 
-## Prerequisites
-
--   PHP >= 8.1
--   Node.js >= 16
--   PostgreSQL
--   Composer
-
 ## Installation
 
 1. Clone the repository
@@ -45,7 +38,7 @@ docker run --rm \
     -v $(pwd):/var/www/html \
     -w /var/www/html \
     laravelsail/php82-composer:latest \
-    composer install
+    composer install --ignore-platform-reqs
 
 ./vendor/bin/sail up -d --build
 ```
