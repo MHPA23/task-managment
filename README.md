@@ -37,9 +37,16 @@ git clone <repository-url>
 cd tasks
 ```
 
-2. Run project
+2. Install PHP dependencys and Run project
 
 ```bash
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v $(pwd):/var/www/html \
+    -w /var/www/html \
+    laravelsail/php82-composer:latest \
+    composer install
+
 ./vendor/bin/sail up -d --build
 ```
 
