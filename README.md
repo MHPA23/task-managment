@@ -27,7 +27,7 @@ A modern task management system built with Laravel and Vue.js, featuring a respo
 
 ```bash
 git clone <repository-url>
-cd tasks
+cd task-managment
 ```
 
 2. Install PHP dependencys and Run project
