@@ -23,3 +23,9 @@ test('task model has correct casts', function () {
         'updated_at' => 'datetime',
     ]);
 });
+
+test('task model has correct relationships', function () {
+    $task = new Task;
+
+    expect($task->user())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+});
