@@ -37,30 +37,31 @@ git clone <repository-url>
 cd tasks
 ```
 
-2. Install PHP dependencies
+2. Run project
 
 ```bash
-composer install
+./vendor/bin/sail up -d --build
 ```
 
-3. Install JavaScript dependencies
+3. Build assets 
 
 ```bash
-npm install
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run dev
 ```
 
 4. Configure environment
 
 ```bash
 cp .env.example .env
-php artisan key:generate
+./vendor/bin/sail php artisan key:generate
 ```
 
 5. Configure your database in `.env`
 
 ```
 DB_CONNECTION=pgsql
-DB_HOST=127.0.0.1
+DB_HOST=pgsql
 DB_PORT=5432
 DB_DATABASE=your_database
 DB_USERNAME=your_username
@@ -70,19 +71,7 @@ DB_PASSWORD=your_password
 6. Run migrations
 
 ```bash
-php artisan migrate
-```
-
-7. Build assets
-
-```bash
-npm run dev
-```
-
-8. Start the server
-
-```bash
-php artisan serve
+./vendor/bin/sail php artisan migrate
 ```
 
 ## API Endpoints
@@ -106,5 +95,5 @@ php artisan serve
 ## Testing
 
 ```bash
-php artisan test
+./vendor/bin/sail php artisan test
 ```

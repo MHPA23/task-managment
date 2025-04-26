@@ -60,7 +60,7 @@ watch(() => props.editingTask, () => resetForm(), { immediate: true })
 </script>
 
 <template>
-  <div v-if="show" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+  <div v-if="show" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
     <div class="bg-white rounded-lg p-6 w-full max-w-md">
       <h2 class="text-2xl font-bold mb-4">{{ editingTask ? 'Edit Task' : 'New Task' }}</h2>
       
