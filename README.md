@@ -4,13 +4,13 @@ A modern task management system built with Laravel and Vue.js, featuring a respo
 
 ## Features
 
--   ✨ Create, read, update, and delete tasks
--   🔍 Search tasks by title
--   🔄 Sort tasks by date or title
--   ⚡ Filter tasks by completion status
--   📱 Responsive design
--   🎨 Clean and modern UI with Tailwind CSS
--   📄 Pagination support
+-   Create, read, update, and delete tasks
+-   Search tasks by title
+-   Sort tasks by date or title
+-   Filter tasks by completion status
+-   Responsive design
+-   Clean and modern UI with Tailwind CSS
+-   Pagination support
 
 ## Tech Stack
 
@@ -103,28 +103,8 @@ php artisan serve
 -   `page`: Page number for pagination
 -   `per_page`: Items per page (default: 10)
 
-## Development
-
-For hot-reload during development:
-
-```bash
-npm run dev
-```
-
 ## Testing
 
 ```bash
 php artisan test
 ```
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
