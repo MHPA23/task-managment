@@ -1,15 +1,27 @@
 <?php
 
 use App\Models\Task;
+use App\Models\User;
+
+use function Pest\Laravel\actingAs;
+
+beforeEach(function () {
+    // Criar um usuário para os testes
+    $user = User::factory()->create();
+    // Disponibilizar o usuário para todos os testes
+    actingAs($user);
+});
 
 it('should be possible to get tasks by date range', function () {
 
     Task::factory()->create([
+        'user_id' => auth()->id(),
         'created_at' => '2020-01-01 00:00:00',
         'updated_at' => '2021-01-01 00:00:00',
     ]);
 
     Task::factory()->create([
+        'user_id' => auth()->id(),
         'created_at' => '2023-01-01 00:00:00',
         'updated_at' => '2023-01-01 00:00:00',
     ]);
@@ -30,10 +42,12 @@ it('should be possible to get tasks by date range', function () {
 it('should be possible to get tasks by completed', function () {
 
     Task::factory()->create([
+        'user_id' => auth()->id(),
         'completed' => true,
     ]);
 
     Task::factory()->create([
+        'user_id' => auth()->id(),
         'completed' => false,
     ]);
 
@@ -48,10 +62,12 @@ it('should be possible to get tasks by completed', function () {
 it('should be possible to get tasks by title', function () {
 
     Task::factory()->create([
+        'user_id' => auth()->id(),
         'title' => 'Test task',
     ]);
 
     Task::factory()->create([
+        'user_id' => auth()->id(),
         'title' => 'Another task',
     ]);
 
@@ -66,11 +82,13 @@ it('should be possible to get tasks by title', function () {
 it('should be possible to get tasks by sort_by', function () {
 
     Task::factory()->create([
+        'user_id' => auth()->id(),
         'title' => 'Test task',
         'created_at' => '2023-01-01 00:00:00',
     ]);
 
     Task::factory()->create([
+        'user_id' => auth()->id(),
         'title' => 'Another task',
         'created_at' => '2023-01-02 00:00:00',
     ]);
@@ -86,7 +104,9 @@ it('should be possible to get tasks by sort_by', function () {
 
 it('should be return results paginated', function () {
 
-    Task::factory()->count(20)->create();
+    Task::factory()->count(20)->create([
+        'user_id' => auth()->id(),
+    ]);
 
     $action = (new \App\Actions\GetTasksAction);
     $tasks = $action->handle();

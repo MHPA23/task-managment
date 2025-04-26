@@ -15,7 +15,7 @@ class TaskStatusController extends Controller
      */
     public function __invoke(): \Illuminate\Http\JsonResponse
     {
-        return Cache::remember('task_stats', 60, function () {
+        return Cache::remember('task_stats_'.auth()->user()->id, 60, function () {
             $taskStats = Task::query()
                 ->select(
                     DB::raw('SUM(CASE WHEN completed = true THEN 1 ELSE 0 END) as completed_tasks'),

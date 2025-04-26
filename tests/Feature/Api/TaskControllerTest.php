@@ -13,7 +13,9 @@ beforeEach(function () {
 });
 
 test('should be possible list tasks', function () {
-    Task::factory()->count(10)->create();
+    Task::factory()->count(10)->create([
+        'user_id' => auth()->id(),
+    ]);
 
     $response = $this->getJson(route('tasks.index'));
 

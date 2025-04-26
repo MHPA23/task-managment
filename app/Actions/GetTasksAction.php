@@ -19,6 +19,7 @@ class GetTasksAction
             ->when(isset($filters['date_init']) && isset($filters['date_end']), function ($query) use ($filters) {
                 $query->whereBetween('created_at', [$filters['date_init'], $filters['date_end']]);
             })
+            ->where('user_id', auth()->id())
             ->latest()
             ->paginate(10);
     }
