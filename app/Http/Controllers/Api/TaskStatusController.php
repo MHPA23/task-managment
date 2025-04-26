@@ -22,7 +22,7 @@ class TaskStatusController extends Controller
                     DB::raw('SUM(CASE WHEN completed = false THEN 1 ELSE 0 END) as pending_tasks'),
                     DB::raw('SUM(CASE WHEN due_date <= NOW() THEN 1 ELSE 0 END) as overdue_tasks')
                 )
-                ->where('user_id', 1)
+                ->where('user_id', auth()->user()->id)
                 ->first();
 
             $stats = [
