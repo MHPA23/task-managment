@@ -43,21 +43,14 @@ docker run --rm \
 ./vendor/bin/sail up -d --build
 ```
 
-3. Build assets 
-
-```bash
-./vendor/bin/sail npm install
-./vendor/bin/sail npm run dev
-```
-
-4. Configure environment
+3. Configure environment
 
 ```bash
 cp .env.example .env
 ./vendor/bin/sail php artisan key:generate
 ```
 
-5. Configure your database in `.env`
+4. Configure your database in `.env`
 
 ```
 DB_CONNECTION=pgsql
@@ -68,10 +61,17 @@ DB_USERNAME=your_username
 DB_PASSWORD=your_password
 ```
 
-6. Run migrations
+5. Run migrations
 
 ```bash
 ./vendor/bin/sail php artisan migrate
+```
+
+6. Build assets 
+
+```bash
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run dev
 ```
 
 ## API Endpoints
