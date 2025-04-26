@@ -121,17 +121,10 @@ watch(() => taskStore.tasksUpdated, fetchStats)
               <h3 class="text-lg font-medium text-gray-900">Pending</h3>
               <p class="text-3xl font-bold text-yellow-600">{{ stats.pendingTasks }}</p>
             </div>
-
-            <div class="bg-white rounded-lg shadow p-6">
-              <h3 class="text-lg font-medium text-gray-900">Categories</h3>
-              <p class="text-3xl font-bold text-purple-600">
-                0
-              </p>
-            </div>
           </div>
 
           <!-- Charts -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div class="grid grid-cols-1 md:grid-cols-1 gap-6 mb-8">
             <div class="bg-white rounded-lg shadow p-6">
               <h3 class="text-lg font-medium text-gray-900 mb-4">Completion Status</h3>
               <div class="h-64">
@@ -139,37 +132,6 @@ watch(() => taskStore.tasksUpdated, fetchStats)
                   :data="completionData"
                   :options="chartOptions"
                 />
-              </div>
-            </div>
-
-            <div class="bg-white rounded-lg shadow p-6">
-              <h3 class="text-lg font-medium text-gray-900 mb-4">Category Distribution</h3>
-              <div class="h-64">
-                <Bar
-                  :data="categoryData"
-                  :options="chartOptions"
-                />
-              </div>
-            </div>
-          </div>
-
-          <!-- Recent Activity -->
-          <div class="bg-white rounded-lg shadow p-6">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Recent Activity</h3>
-            <div class="space-y-4">
-              <div v-for="activity in stats.recentActivity" :key="activity.id" 
-                  class="flex items-center justify-between border-b pb-4">
-                <div>
-                  <p class="font-medium text-gray-900">{{ activity.title }}</p>
-                  <p class="text-sm text-gray-500">{{ activity.description }}</p>
-                </div>
-                <span :class="{
-                  'bg-green-100 text-green-800': activity.type === 'completed',
-                  'bg-blue-100 text-blue-800': activity.type === 'created',
-                  'bg-yellow-100 text-yellow-800': activity.type === 'updated'
-                }" class="px-3 py-1 rounded-full text-sm font-medium">
-                  {{ activity.type }}
-                </span>
               </div>
             </div>
           </div>
