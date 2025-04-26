@@ -93,12 +93,12 @@
           <p class="mt-2 text-gray-600">Loading tasks...</p>
         </div>
 
-        <!-- Empty State -->
+        <!-- No Tasks Found -->
         <div v-if="!loading && (!tasks.data || tasks.data.length === 0)" class="mt-6 text-center">
           <p class="text-gray-500">No tasks found.</p>
         </div>
 
-        <!-- Modal de Formulário -->
+        <!-- Modal Form -->
         <TaskFormModal
           :show="showModal"
           :editing-task="editingTask"
@@ -138,7 +138,7 @@ const handleSave = async (formData) => {
     }
     await fetchTasks()
   } catch (error) {
-    throw error // Propagar erro para o componente do modal
+    throw error
   }
 }
 
