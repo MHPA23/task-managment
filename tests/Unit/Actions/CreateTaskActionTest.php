@@ -12,6 +12,7 @@ it('should be possible create a task', function () {
         'title' => $task['title'],
         'description' => $task['description'],
         'user_id' => $task['user_id'],
+        'category_id' => $task['category_id'],
         'completed' => $task['completed'],
     ]);
 });

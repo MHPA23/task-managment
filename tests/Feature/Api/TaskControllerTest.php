@@ -46,6 +46,7 @@ test('should be possible to create a task', function () {
             'completed',
         ],
     ]);
+
     $this->assertDatabaseHas('tasks', [
         'title' => $taskData['title'],
         'description' => $taskData['description'],

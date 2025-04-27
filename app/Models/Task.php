@@ -19,6 +19,7 @@ class Task extends Model
         'description',
         'due_date',
         'user_id',
+        'category_id',
         'completed',
     ];
 
@@ -28,6 +29,11 @@ class Task extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

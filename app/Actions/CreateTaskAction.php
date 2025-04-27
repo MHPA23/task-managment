@@ -15,6 +15,7 @@ class CreateTaskAction implements CreateTaskActionInterface
             'description' => $data['description'],
             'due_date' => $data['due_date'] ?? null,
             'user_id' => $data['user_id'],
+            'category_id' => $data['category_id'],
             'completed' => $data['completed'],
         ]);
     }

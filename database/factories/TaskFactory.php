@@ -22,6 +22,7 @@ class TaskFactory extends Factory
             'description' => fake()->paragraph(),
             'due_date' => fake()->dateTimeBetween('now', '+1 month'),
             'user_id' => User::factory(),
+            'category_id' => \App\Models\Category::factory(),
             'completed' => fake()->boolean(),
         ];
     }
