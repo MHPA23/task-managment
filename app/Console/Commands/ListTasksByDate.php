@@ -2,11 +2,16 @@
 
 namespace App\Console\Commands;
 
-use App\Actions\GetTasksAction;
+use App\Interface\GetTasksActionInterface;
 use Illuminate\Console\Command;
 
 class ListTasksByDate extends Command
 {
+    public function __construct(private GetTasksActionInterface $getTasksAction)
+    {
+        parent::__construct();
+    }
+
     /**
      * The name and signature of the console command.
      *
@@ -36,16 +41,25 @@ class ListTasksByDate extends Command
             return Command::FAILURE;
         }
 
-        $tasks = (new GetTasksAction)->handle([
+        $tasks = $this->getTasksAction->handle([
             'date_init' => $dateInit,
             'date_end' => $dateEnd,
         ]);
 
         if ($tasks->isEmpty()) {
             $this->info('No tasks found for the specified date range.');
-        } else {
-            $this->table(['ID', 'Title', 'Description', 'Created At'], $tasks->toArray());
+
+            return Command::SUCCESS;
         }
+
+        $this->table(['ID', 'Title', 'Description', 'Created At'], $tasks->map(function ($task) {
+            return [
+                'ID' => $task->id,
+                'Title' => $task->title,
+                'Description' => $task->description,
+                'Created At' => $task->created_at,
+            ];
+        }));
 
         $this->info('Total tasks found: '.$tasks->count());
 
