@@ -14,11 +14,14 @@ class TasksDashboardResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        /** @var \App\Models\Task $this */
+        $task = $this;
+
         return [
-            'completedTasks' => $this->completed_tasks,
-            'pendingTasks' => $this->pending_tasks,
-            'overdueTasks' => $this->overdue_tasks,
-            'totalTasks' => $this->completed_tasks + $this->pending_tasks + $this->overdue_tasks,
+            'completedTasks' => $task->completed_tasks,
+            'pendingTasks' => $task->pending_tasks,
+            'overdueTasks' => $task->overdue_tasks,
+            'totalTasks' => $task->completed_tasks + $task->pending_tasks + $task->overdue_tasks,
         ];
     }
 }

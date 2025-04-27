@@ -2,10 +2,11 @@
 
 namespace App\Actions;
 
+use App\Interface\GetTasksDashboardActionInterface;
 use App\Models\Task;
 use Illuminate\Support\Facades\DB;
 
-class GetTasksDashboardAction
+class GetTasksDashboardAction implements GetTasksDashboardActionInterface
 {
     public function handle(?int $userId = null): ?Task
     {

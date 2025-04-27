@@ -15,12 +15,15 @@ class TaskResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        /** @var \App\Models\Task $this */
+        $task = $this;
+
         return [
-            'id' => $this->id,
-            'title' => $this->title,
-            'description' => $this->description,
-            'due_date' => $this->due_date ? Carbon::parse($this->due_date)->format('Y-m-d H:i:s') : null,
-            'completed' => $this->completed,
+            'id' => $task->id,
+            'title' => $task->title,
+            'description' => $task->description,
+            'due_date' => $task->due_date ? Carbon::parse($task->due_date)->toDateTimeString() : null,
+            'completed' => $task->completed,
         ];
     }
 }

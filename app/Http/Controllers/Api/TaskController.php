@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Actions\CreateTaskAction;
-use App\Actions\GetTasksAction;
-use App\Actions\GetTasksDashboardAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Http\Resources\TasksDashboardResource;
+use App\Interface\CreateTaskActionInterface;
+use App\Interface\GetTasksActionInterface;
+use App\Interface\GetTasksDashboardActionInterface;
 use App\Models\Task;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,17 +18,21 @@ use Illuminate\Support\Facades\Cache;
 
 class TaskController extends Controller
 {
-    public function index(Request $request, GetTasksAction $getTasksAction): AnonymousResourceCollection
+    public function __construct(private CreateTaskActionInterface $createTaskAction,
+        private GetTasksActionInterface $getTasksAction,
+        private GetTasksDashboardActionInterface $getTasksDashboardAction) {}
+
+    public function index(Request $request): AnonymousResourceCollection
     {
-        return TaskResource::collection($getTasksAction->handle($request->all()));
+        return TaskResource::collection($this->getTasksAction->handle($request->all()));
     }
 
-    public function store(TaskRequest $request, CreateTaskAction $createTaskAction): TaskResource|JsonResponse
+    public function store(TaskRequest $request): TaskResource|JsonResponse
     {
 
         $data = $request->validated();
         $data['user_id'] = auth()->id();
-        $task = $createTaskAction->handle($data);
+        $task = $this->createTaskAction->handle($data);
 
         return new TaskResource($task);
 
@@ -53,10 +57,10 @@ class TaskController extends Controller
         return response()->noContent();
     }
 
-    public function dashboard(GetTasksDashboardAction $getTasksDashboardAction): TasksDashboardResource
+    public function dashboard(): TasksDashboardResource
     {
-        return Cache::remember('task_stats_'.auth()->user()->id, 60, function () use ($getTasksDashboardAction) {
-            $taskStats = $getTasksDashboardAction->handle(auth()->user()->id);
+        return Cache::remember('task_stats_'.auth()->user()->id, 60, function () {
+            $taskStats = $this->getTasksDashboardAction->handle(auth()->user()->id);
 
             return new TasksDashboardResource($taskStats);
         });

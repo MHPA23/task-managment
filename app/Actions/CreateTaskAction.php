@@ -2,9 +2,10 @@
 
 namespace App\Actions;
 
+use App\Interface\CreateTaskActionInterface;
 use App\Models\Task;
 
-class CreateTaskAction
+class CreateTaskAction implements CreateTaskActionInterface
 {
     public function handle(array $data): Task
     {

@@ -2,7 +2,9 @@
 
 namespace App\Actions;
 
-class GetTasksAction
+use App\Interface\GetTasksActionInterface;
+
+class GetTasksAction implements GetTasksActionInterface
 {
     public function handle(array $filters = [], ?int $userId = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {

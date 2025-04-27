@@ -30,7 +30,7 @@ services:
     container_name: postgres_db
     restart: always
     environment:
-      POSTGRES_MULTIPLE_DATABASES: task, task_test
+      POSTGRES_DB: task
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
     volumes:

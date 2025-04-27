@@ -4,7 +4,6 @@ use App\Models\Task;
 use App\Models\User;
 
 use function Pest\Laravel\actingAs;
-use function Pest\Laravel\getConnection;
 
 beforeEach(function () {
     $user = User::factory()->create();
