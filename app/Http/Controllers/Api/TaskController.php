@@ -31,7 +31,7 @@ class TaskController extends Controller
     {
 
         $data = $request->validated();
-        $data['user_id'] = auth()->id();
+        $data['user_id'] = auth()->user()->id;
         $task = $this->createTaskAction->handle($data);
 
         return new TaskResource($task);
