@@ -2,8 +2,6 @@
 
 namespace App\Interface;
 
-use App\Models\Task;
-
 interface GetTasksDashboardActionInterface
 {
     /**
@@ -11,5 +9,5 @@ interface GetTasksDashboardActionInterface
      *
      * @param  int|null  $userId  The ID of the user to filter tasks by.
      */
-    public function handle(int $userId): ?Task;
+    public function handle(int $userId): array;
 }

@@ -16,6 +16,6 @@ it('should return tasks values from dashboard', function () {
     $action = new GetTasksDashboardAction;
     $result = $action->handle();
 
-    expect($result['completed_tasks'])->toEqual(5);
-    expect($result['pending_tasks'])->toEqual(3);
+    expect($result['completedTasks'])->toEqual(5);
+    expect($result['pendingTasks'])->toEqual(3);
 });

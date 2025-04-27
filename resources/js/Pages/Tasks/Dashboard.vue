@@ -52,7 +52,9 @@ const categoryData = ref({
   datasets: [{
     label: 'Tasks by Category',
     data: [],
-    backgroundColor: '#6366F1'
+    backgroundColor: [
+      '#3B82F6', '#F97316', '#10B981', '#EF4444', '#8B5CF6'
+    ]
   }]
 })
 
@@ -65,6 +67,7 @@ const chartOptions = {
     }
   }
 }
+
 
 const fetchStats = async () => {
   try {
@@ -133,6 +136,17 @@ watch(() => taskStore.tasksUpdated, fetchStats)
                   :options="chartOptions"
                 />
               </div>
+            </div>
+          </div>
+
+          <!-- Category Chart -->
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Tasks by Category</h3>
+            <div class="h-64">
+              <Bar
+                :data="categoryData"
+                :options="chartOptions"
+              />
             </div>
           </div>
         </div>

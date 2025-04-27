@@ -18,10 +18,11 @@ class TasksDashboardResource extends JsonResource
         $task = $this;
 
         return [
-            'completedTasks' => $task->completed_tasks,
-            'pendingTasks' => $task->pending_tasks,
-            'overdueTasks' => $task->overdue_tasks,
-            'totalTasks' => $task->completed_tasks + $task->pending_tasks + $task->overdue_tasks,
+            'completedTasks' => $task['completedTasks'],
+            'pendingTasks' => $task['pendingTasks'],
+            'overdueTasks' => $task['overdueTasks'],
+            'totalTasks' => $task['completedTasks'] + $task['pendingTasks'] + $task['overdueTasks'],
+            'categoryDistribution' => $task['categoryDistribution'],
         ];
     }
 }
