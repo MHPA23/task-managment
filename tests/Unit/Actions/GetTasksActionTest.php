@@ -6,9 +6,7 @@ use App\Models\User;
 use function Pest\Laravel\actingAs;
 
 beforeEach(function () {
-    // Criar um usuário para os testes
     $user = User::factory()->create();
-    // Disponibilizar o usuário para todos os testes
     actingAs($user);
 });
 

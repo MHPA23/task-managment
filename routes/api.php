@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Api\TaskController;
-use App\Http\Controllers\Api\TaskStatusController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('tasks/status', TaskStatusController::class)->name('tasks.status');
+    Route::get('tasks/dashboard', [TaskController::class, 'dashboard'])->name('tasks.dashboard');
     Route::apiResource('tasks', TaskController::class);
 });

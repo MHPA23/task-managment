@@ -69,8 +69,8 @@ const chartOptions = {
 const fetchStats = async () => {
   try {
     loading.value = true
-    const response = await axios.get('/api/tasks/status')
-    stats.value = response.data
+    const response = await axios.get('/api/tasks/dashboard')
+    stats.value = response.data.data
 
     // Update completion chart
     completionData.value.datasets[0].data = [

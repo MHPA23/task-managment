@@ -4,11 +4,10 @@ use App\Models\Task;
 use App\Models\User;
 
 use function Pest\Laravel\actingAs;
+use function Pest\Laravel\getConnection;
 
 beforeEach(function () {
-    // Criar um usuário para os testes
     $user = User::factory()->create();
-    // Disponibilizar o usuário para todos os testes
     actingAs($user);
 });
 
@@ -121,4 +120,31 @@ test('should be possible to delete a task', function () {
 
     $response->assertStatus(204);
     $this->assertDatabaseMissing('tasks', $task->toArray());
+});
+
+it('should be possible return tasks values for dashboard', function () {
+    Task::factory()->create([
+        'user_id' => auth()->id(),
+        'completed' => false,
+    ]);
+
+    $response = $this->getJson(route('tasks.dashboard'));
+
+    $response->assertStatus(200);
+    $response->assertJsonStructure([
+        'data' => [
+            'totalTasks',
+            'completedTasks',
+            'overdueTasks',
+            'pendingTasks',
+        ],
+    ]);
+    $response->assertJson([
+        'data' => [
+            'totalTasks' => 1,
+            'completedTasks' => 0,
+            'overdueTasks' => 0,
+            'pendingTasks' => 1,
+        ],
+    ]);
 });

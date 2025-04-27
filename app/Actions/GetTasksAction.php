@@ -4,7 +4,7 @@ namespace App\Actions;
 
 class GetTasksAction
 {
-    public function handle(array $filters = []): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public function handle(array $filters = [], ?int $userId = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return \App\Models\Task::query()
             ->when($filters['completed'] ?? null, function ($query, $completed) {
@@ -19,7 +19,9 @@ class GetTasksAction
             ->when(isset($filters['date_init']) && isset($filters['date_end']), function ($query) use ($filters) {
                 $query->whereBetween('created_at', [$filters['date_init'], $filters['date_end']]);
             })
-            ->where('user_id', auth()->id())
+            ->when($userId, function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
             ->latest()
             ->paginate(10);
     }

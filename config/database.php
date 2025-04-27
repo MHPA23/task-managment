@@ -43,6 +43,14 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
+        'testing' => [
+            'driver' => 'sqlite',
+            'url' => env('DATABASE_URL'),
+            'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            'prefix' => '',
+            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
@@ -77,23 +85,7 @@ return [
             'search_path' => 'public',
             'sslmode' => 'prefer',
         ],
-
-        'testing' => [
-            'driver' => 'sqlite',
-            'url' => env('DATABASE_URL'),
-            'host' => env('DB_TEST_HOST', '127.0.0.1'),
-            'port' => env('DB_TEST_PORT', '5432'),
-            'database' => env('DB_TEST_DATABASE', 'forge'),
-            'username' => env('DB_TEST_USERNAME', 'forge'),
-            'password' => env('DB_TEST_PASSWORD', ''),
-            'unix_socket' => env('DB_TEST_SOCKET', ''),
-            'charset' => 'utf8',
-            'prefix' => '',
-            'prefix_indexes' => true,
-            'search_path' => 'public',
-            'sslmode' => 'prefer',
-        ],
-
+        
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),

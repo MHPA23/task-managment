@@ -138,6 +138,7 @@ const handleSave = async (formData) => {
     }
     await fetchTasks()
   } catch (error) {
+    toast.error('An error occurred')
     throw error
   }
 }
