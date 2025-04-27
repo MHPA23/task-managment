@@ -29,4 +29,15 @@ class TaskRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'title' => 'Title',
+            'description' => 'Description',
+            'due_date' => 'Due Date',
+            'completed' => 'Completed',
+            'category_id' => 'Category',
+        ];
+    }
 }

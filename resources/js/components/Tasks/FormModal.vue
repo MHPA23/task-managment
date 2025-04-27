@@ -7,7 +7,8 @@ const props = defineProps({
   editingTask: {
     type: Object,
     default: null
-  }
+  },
+  categories: Array
 })
 
 const emit = defineEmits(['close', 'save'])
@@ -28,6 +29,7 @@ const resetForm = () => {
     form.description = props.editingTask.description
     form.completed = props.editingTask.completed
     form.due_date = props.editingTask.due_date || ''
+    form.category_id = props.editingTask.category_id
   } else {
     form.title = ''
     form.description = ''
@@ -61,10 +63,30 @@ watch(() => props.editingTask, () => resetForm(), { immediate: true })
 
 <template>
   <div v-if="show" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-    <div class="bg-white rounded-lg p-6 w-full max-w-md">
-      <h2 class="text-2xl font-bold mb-4">{{ editingTask ? 'Edit Task' : 'New Task' }}</h2>
-      
-      <form @submit.prevent="handleSubmit" class="space-y-4">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+              <h2 class="text-2xl font-bold mb-4">{{ editingTask ? 'Edit Task' : 'New Task' }}</h2>
+              
+              <form @submit.prevent="handleSubmit" class="space-y-4">
+                <div>
+          <label class="block text-sm font-medium text-gray-700">Category</label>
+          <select
+            v-model="form.category_id"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            :class="{ 'border-red-500': errors.category_id }"
+          >
+            <option value="" disabled selected>Select a category</option>
+            <option 
+              v-for="category in props.categories" 
+              :key="category.id" 
+              :value="category.id"
+            >
+              {{ category.name }}
+            </option>
+          </select>
+          <p v-if="errors.category_id" class="mt-1 text-sm text-red-600">
+            {{ errors.category_id[0] }}
+          </p>
+        </div>
         <div>
           <label class="block text-sm font-medium text-gray-700">Title</label>
           <input 

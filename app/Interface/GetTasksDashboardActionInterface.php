@@ -6,5 +6,10 @@ use App\Models\Task;
 
 interface GetTasksDashboardActionInterface
 {
-    public function handle(int $data): ?Task;
+    /**
+     * Handle the action of getting tasks for the dashboard.
+     *
+     * @param  int|null  $userId  The ID of the user to filter tasks by.
+     */
+    public function handle(int $userId): ?Task;
 }

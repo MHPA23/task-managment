@@ -20,6 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Prevent lazy loading of relationships
+        Model::preventLazyLoading(! app()->isProduction());
+
         $this->app->bind(
             'App\Interface\CreateTaskActionInterface',
             'App\Actions\CreateTaskAction'
@@ -34,7 +37,5 @@ class AppServiceProvider extends ServiceProvider
             'App\Interface\GetTasksDashboardActionInterface',
             'App\Actions\GetTasksDashboardAction'
         );
-        // Prevent lazy loading of relationships in production
-        Model::preventLazyLoading(! app()->isProduction());
     }
 }

@@ -9,6 +9,7 @@ class GetTasksAction implements GetTasksActionInterface
     public function handle(array $filters = [], ?int $userId = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return \App\Models\Task::query()
+            ->with(['category'])
             ->when($filters['completed'] ?? null, function ($query, $completed) {
                 $query->where('completed', $completed);
             })

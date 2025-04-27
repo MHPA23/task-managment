@@ -29,7 +29,13 @@
           >
             <div class="flex items-center justify-between">
               <div class="flex-1">
-                <h3 class="text-lg font-semibold text-gray-800">{{ task.title }}</h3> <small v-if="task.due_date" class="text-gray-500">Completed at: {{ task.due_date }}</small>
+                <h3 class="text-lg font-semibold text-gray-800">
+                  {{ task.title }}
+                  <span v-if="task.category">
+                    | {{ task.category }}
+                  </span>
+                </h3> 
+                <small v-if="task.due_date" class="text-gray-500">Completed at: {{ task.due_date }}</small>
                 <p class="text-gray-600 mt-1">{{ task.description }}</p>
               </div>
               <div class="flex items-center space-x-4">
@@ -102,6 +108,7 @@
         <TaskFormModal
           :show="showModal"
           :editing-task="editingTask"
+          :categories="categories"
           @close="closeModal"
           @save="handleSave"
         />
@@ -119,6 +126,7 @@ import { useToast } from "vue-toastification"
 import axios from 'axios'
 import TaskFilters from '@/Components/Tasks/Filter.vue'
 import TaskFormModal from '@/Components/Tasks/FormModal.vue'
+import { defineProps } from 'vue'
 
 const toast = useToast()
 const taskStore = useTaskStore()
@@ -126,6 +134,11 @@ const tasks = ref({ data: [], meta: null })
 const loading = ref(false)
 const showModal = ref(false)
 const editingTask = ref(null)
+
+const props = defineProps({
+  categories: Array,
+  // ...outros imports e coisas que você já tem
+})
 
 const handleSave = async (formData) => {
   try {
@@ -138,7 +151,18 @@ const handleSave = async (formData) => {
     }
     await fetchTasks()
   } catch (error) {
-    toast.error('An error occurred')
+    if (error.response?.status === 422) {
+      for (const [key, value] of Object.entries(error.response.data.errors)) {
+        toast.error(`${key}: ${value.join(', ')}`, {
+          position: 'top-right',
+          timeout: 5000,
+        })
+      }
+      return
+    }else {
+      toast.error('An error occurred')
+    }
+    
     throw error
   }
 }

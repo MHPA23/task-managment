@@ -22,6 +22,8 @@ class TaskResource extends JsonResource
             'id' => $task->id,
             'title' => $task->title,
             'description' => $task->description,
+            'category' => $task->category?->name,
+            'category_id' => $task->category_id,
             'due_date' => $task->due_date ? Carbon::parse($task->due_date)->toDateTimeString() : null,
             'completed' => $task->completed,
         ];

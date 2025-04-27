@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Web\TaskController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,9 +26,7 @@ Route::get('/dashboard', function () {
     return Inertia::render('Tasks/Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/tasks', function () {
-    return Inertia::render('Tasks/List');
-})->middleware(['auth', 'verified'])->name('tasks.list');
+Route::get('tasks', [TaskController::class, 'index'])->name('tasks.list')->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
