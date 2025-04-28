@@ -82,4 +82,13 @@ docker exec -it laravel_app php artisan migrate
 
 ```bash
 docker exec -it laravel_app php artisan test
+
 ```
+
+## Usage
+First, create an account.
+This project uses Laravel Breeze to provide the authentication structure.
+Once logged into the application, you will see two menus: Dashboard and Tasks.
+
+- Dashboard displays all information about tasks and chats to explore.
+- Tasks provides full CRUD (Create, Read, Update, Delete) functionality for managing tasks.
