@@ -27,15 +27,18 @@ class TaskController extends Controller
         return TaskResource::collection($this->getTasksAction->handle($request->all()));
     }
 
-    public function store(TaskRequest $request): TaskResource|JsonResponse
+    public function store(TaskRequest $request): JsonResponse
     {
+        try {
+            $data = $request->validated();
+            $data['user_id'] = auth()->user()->id;
 
-        $data = $request->validated();
-        $data['user_id'] = auth()->user()->id;
-        $task = $this->createTaskAction->handle($data);
+            $this->createTaskAction->handle($data);
 
-        return new TaskResource($task);
-
+            return response()->json([], 201);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => trans('message.error_to_saved_task')], 500);
+        }
     }
 
     public function show(Task $task): TaskResource

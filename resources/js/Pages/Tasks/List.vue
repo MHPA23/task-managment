@@ -151,6 +151,7 @@ const handleSave = async (formData) => {
     }
     await fetchTasks()
   } catch (error) {
+    console.log('Error saving task:', error)
     if (error.response?.status === 422) {
       for (const [key, value] of Object.entries(error.response.data.errors)) {
         toast.error(`${key}: ${value.join(', ')}`, {

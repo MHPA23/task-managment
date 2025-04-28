@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repository\Eloquent\EloquentRepository;
+use App\Repository\Repository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
@@ -37,5 +39,11 @@ class AppServiceProvider extends ServiceProvider
             'App\Interface\GetTasksDashboardActionInterface',
             'App\Actions\GetTasksDashboardAction'
         );
+
+        $this->app->bind(Repository::class, function () {
+            return new Repository(
+                new EloquentRepository,
+            );
+        });
     }
 }

@@ -11,5 +11,5 @@ interface CreateTaskActionInterface
      *
      * @param  array  $data  The data to create the task with.
      */
-    public function handle(array $data): Task;
+    public function handle(array $data): bool;
 }

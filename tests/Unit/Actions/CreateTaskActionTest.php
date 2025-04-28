@@ -1,10 +1,14 @@
 <?php
 
+use App\Actions\CreateTaskAction;
 use App\Models\Task;
+use App\Repository\Eloquent\EloquentRepository;
+use App\Repository\Repository;
 
 it('should be possible create a task', function () {
     $task = Task::factory()->make()->toArray();
-    $action = (new \App\Actions\CreateTaskAction);
+    $repository = new Repository(new EloquentRepository);
+    $action = new CreateTaskAction($repository);
 
     $action->handle($task);
 

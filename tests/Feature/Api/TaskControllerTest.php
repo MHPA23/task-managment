@@ -37,15 +37,6 @@ test('should be possible to create a task', function () {
     $response = $this->postJson(route('tasks.store'), $taskData);
 
     $response->assertStatus(201);
-    $response->assertJsonStructure([
-        'data' => [
-            'id',
-            'title',
-            'description',
-            'due_date',
-            'completed',
-        ],
-    ]);
 
     $this->assertDatabaseHas('tasks', [
         'title' => $taskData['title'],

@@ -3,20 +3,19 @@
 namespace App\Actions;
 
 use App\Interface\CreateTaskActionInterface;
-use App\Models\Task;
+use App\Repository\Repository;
 
 class CreateTaskAction implements CreateTaskActionInterface
 {
-    public function handle(array $data): Task
-    {
+    // Using the Repository pattern to save the task
+    public function __construct(
+        private readonly Repository $repository
+    ) {}
 
-        return Task::create([
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'due_date' => $data['due_date'] ?? null,
-            'user_id' => $data['user_id'],
-            'category_id' => $data['category_id'],
-            'completed' => $data['completed'],
-        ]);
+    public function handle(array $data): bool
+    {
+        $this->repository->setCollectionName('task');
+
+        return $this->repository->save($data);
     }
 }
