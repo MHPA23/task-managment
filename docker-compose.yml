@@ -1,63 +1,56 @@
 services:
-  # Serviço de aplicação Laravel
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    container_name: laravel_app
-    entrypoint: ["sh", "/app/docker/docker-entrypoint-dev.sh"]
-    ports:
-        - '8082:80'
-    volumes:
-      - ./:/app
-      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
-      - ./docker/nginx/default:/etc/nginx/sites-enabled/default
-    networks:
-      - app-network
-    depends_on:
-      - db
-    environment:
-      - DB_CONNECTION=pgsql
-      - DB_HOST=postgres_db
-      - DB_PORT=5432
-      - DB_DATABASE=task
-      - DB_USERNAME=root
-      - DB_PASSWORD=root
+    # Serviço de aplicação Laravel
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        container_name: laravel_app
+        entrypoint: ['sh', '/app/docker/docker-entrypoint-dev.sh']
+        ports:
+            - '8082:80'
+        volumes:
+            - ./:/app
+            - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+            - ./docker/nginx/default:/etc/nginx/sites-enabled/default
+        networks:
+            - app-network
+        depends_on:
+            - db
 
-  # Serviço de banco de dados PostgreSQL
-  db:
-    image: postgres:14
-    container_name: postgres_db
-    restart: always
-    environment:
-      POSTGRES_DB: task
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    networks:
-      - app-network
-    ports:
-      - "5432:5432"
-      
-  # Serviço para rodar o Vite (Vue.js)
-  vite:
-    image: node:20
-    container_name: vite_dev
-    working_dir: /var/www
-    volumes:
-      - .:/var/www
-    ports:
-      - "5173:5173"
-    command: sh -c "npm install && npm run dev"
-    depends_on:
-      - app
-    networks:
-      - app-network
+    # Serviço de banco de dados PostgreSQL
+    db:
+        image: postgres:14
+        container_name: postgres_db
+        restart: always
+        environment:
+            POSTGRES_DB: task
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: root
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        networks:
+            - app-network
+        ports:
+            - '5432:5432'
+
+    # Serviço para rodar o Vite (Vue.js)
+    vite:
+        image: node:20
+        container_name: vite_dev
+        working_dir: /var/www
+        volumes:
+            - .:/var/www
+        ports:
+            - '5173:5173'
+        command: sh -c "npm install && npm run dev"
+        depends_on:
+            - app
+        networks:
+            - app-network
 
 volumes:
-  pgdata:
+    pgdata:
 
 networks:
-  app-network:
-    driver: bridge
+    app-network:
+        driver: bridge
