@@ -174,12 +174,12 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { Head } from '@inertiajs/vue3'
-import { ref, reactive, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useTaskStore } from '@/stores/useTaskStore'
 import { useToast } from 'vue-toastification'
 import axios from 'axios'
-import TaskFilters from '@/Components/Tasks/Filter.vue'
-import TaskFormModal from '@/Components/Tasks/FormModal.vue'
+import TaskFilters from '@/components/Tasks/Filter.vue'
+import TaskFormModal from '@/components/Tasks/FormModal.vue'
 import { onMounted } from 'vue'
 
 const toast = useToast()
